@@ -44,7 +44,7 @@ function App() {
 
     let peli = movie.name.split("")
     for (let i = 0; i < indexes.length; i++) {
-       if(peli[indexes[i]] != " "){
+       if(peli[indexes[i]] != " " && peli[indexes[i]] != ":" && peli[indexes[i]] != "'" && peli[indexes[i]] != "-"){
         peli[indexes[i]] = "_"
        }
     }
@@ -65,7 +65,6 @@ function App() {
     }
     setPeliculas(getEliminarPeli())
     setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
-    setPoints(points - 1)
     setPista(0)
     setVer(0)
     setNoGo(0)
@@ -79,12 +78,12 @@ function App() {
     const guess = formData.get("movieName")?.toString()
 
     if(guess?.toLocaleLowerCase() === movie.name.toLocaleLowerCase()){
-      alert("COOOOORRRREEEECTOOOOOO \n+1 punto")
+      alert("COOOOORRRREEEECTOOOOOO \n+3 punto")
       setPeliculas(getEliminarPeli())
       setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
       setPista(0)
       setVer(0)
-      setPoints(points + 1)
+      setPoints(points + 3)
       setGuess("")
     }else{
       setPista(0)
@@ -140,7 +139,7 @@ function App() {
                   {noGo != 2 && <button type='submit'>GO</button>}
                 </form>
                 <div className='contSkip'>
-                  <button onClick={handleSkip}>Skip (-1)</button>
+                  <button onClick={handleSkip}>Skip</button>
                   {ver == 0 ? <button onClick={() => {
                     setVer(1)
                     setNoGo(2)
@@ -165,8 +164,8 @@ function App() {
                 }}>Activar pista (-2 Puntos)</button>}
               </div>
               <div className='contPista'>
-                <p>ACTOR:</p>
-                {pista > 2 ? movie.actors : <button onClick={() => 
+                <p>PROTAGONISTA:</p>
+                {pista > 2 ? movie.character : <button onClick={() => 
                   {setPista(3) 
                   setPoints(points - 3)
                   }}>Activar pista (-3 Puntos)</button>}
