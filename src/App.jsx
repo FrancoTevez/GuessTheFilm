@@ -17,9 +17,6 @@ function App() {
   function getEliminarPeli() {
     if(movie.name){
       return peliculas.filter(el => {
-        if(el.name == movie.name){
-          console.log(el.name);
-        }
         return el.name !== movie.name
       })
       
@@ -52,7 +49,6 @@ function App() {
   }
 
   function handleStart() {
-    setPeliculas(pelis)
     setStart(1)
     setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
   }
@@ -90,7 +86,7 @@ function App() {
       setVer(0)
       setGuess("")
       setPeliculas(getEliminarPeli())
-      setMovie(pelis[Math.floor(Math.random() * pelis.length)])
+      setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
       setPoints(points - 1)
       alert(`INCORRECTO :(, ERA: \n${movie.name} \n-1 punto`)
     }
@@ -113,7 +109,7 @@ function App() {
   }
 
   function handleRestart() {
-    location.reload();
+    location.reload()
     setPoints(0)
     setNoGo(0)
     setPista(0)

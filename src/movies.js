@@ -63,7 +63,7 @@ const movies = [
     name: "Aladdín",
     author: "Ron Clements",
     year: "1992",
-    character: "Aladdín"
+    character: "El genio de la lámpara"
   },
   {
     name: "Buscando a Nemo",
@@ -256,12 +256,6 @@ const movies = [
     author: "Pete Docter",
     year: "2020",
     character: "Joe Gardner"
-  },
-  {
-    name: "Como entrenar a tu Dragón",
-    author: "Dean DeBlois",
-    year: "2010",
-    character: "Hiccup"
   },
 ]
 
