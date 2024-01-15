@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import pelis from "./movies.js"
+import { useRef } from 'react'
 
 function App() {
   const [movie, setMovie] = useState({})
@@ -13,6 +14,9 @@ function App() {
   const [peliculas, setPeliculas] = useState([])
   const [noGo, setNoGo] = useState(0)
   const [record, setRecord] = useState(-100)
+  const alfabeto = "abcdefghijklmnopqrstuvwxyz"
+  const inputRef = useRef(null)
+
 
   function getEliminarPeli() {
     if(movie.name){
@@ -41,7 +45,7 @@ function App() {
 
     let peli = movie.name.split("")
     for (let i = 0; i < indexes.length; i++) {
-       if(peli[indexes[i]] != " " && peli[indexes[i]] != ":" && peli[indexes[i]] != "'" && peli[indexes[i]] != "-"){
+       if(alfabeto.includes(peli[indexes[i]].toLocaleLowerCase()) ){
         peli[indexes[i]] = "_"
        }
     }
@@ -65,6 +69,7 @@ function App() {
     setVer(0)
     setNoGo(0)
     setGuess("")
+    inputRef.current.focus()
   }
 
   function handleGo(e) {
@@ -73,28 +78,33 @@ function App() {
     const formData = new FormData(e.currentTarget)
     const guess = formData.get("movieName")?.toString()
 
-    if(guess?.toLocaleLowerCase() === movie.name.toLocaleLowerCase()){
+    if(guess?.toLocaleLowerCase() === movie.name.toLocaleLowerCase() || guess?.toLocaleLowerCase() === `${movie.name.toLocaleLowerCase()} `){
       alert("COOOOORRRREEEECTOOOOOO \n+3 punto")
       setPeliculas(getEliminarPeli())
-      setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
       setPista(0)
       setVer(0)
       setPoints(points + 3)
       setGuess("")
+      setTimeout(() => {
+        setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
+      }, 200);
     }else{
       setPista(0)
       setVer(0)
       setGuess("")
       setPeliculas(getEliminarPeli())
-      setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
       setPoints(points - 1)
       alert(`INCORRECTO :(, ERA: \n${movie.name} \n-1 punto`)
+      setTimeout(() => {
+        setMovie(peliculas[Math.floor(Math.random() * peliculas.length)])
+      }, 200);
     }
     if(peliculas.length < 1){
       alert(`Terminaron Las Peliculas\nHiciste ${points} puntos`)
       fijarseRecord()
       handleRestart()
     } 
+    inputRef.current.focus()
   }
 
   function fijarseRecord() {
@@ -131,7 +141,7 @@ function App() {
               {ver == 0 ? <span>{parcial}</span> : <span>{movie.name}</span>}
               <div className='contForm'>
                 <form action="" onSubmit={noGo != 2 ? handleGo : handleVer}>
-                  <input type="text" value={guess} onChange={e => setGuess(e.target.value)} name='movieName'/>
+                  <input type="text" value={guess} onChange={e => setGuess(e.target.value)} name='movieName' ref={inputRef} />
                   {noGo != 2 && <button type='submit'>GO</button>}
                 </form>
                 <div className='contSkip'>
